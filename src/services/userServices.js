@@ -33,7 +33,7 @@ const getAllUsers = async () => {
 const getUserById = async (id) => {
   const user = await User.findByPk(id);
   if (!user) {
-    return { status: 404, message: 'User does not exist' };
+    return undefined;
   }
   return {
     id: user.id,
