@@ -13,12 +13,9 @@ const createToken = (user) => {
 const validateToken = (token) => {
     try {
       const { data } = jwt.verify(token, process.env.JWT_SECRET);
-  
       return data;
     } catch (_err) {
-      const e = new Error('Token inválido');
-      e.name = 'UnauthorizedError';
-      throw e;
+      return undefined;
     }
 };
 

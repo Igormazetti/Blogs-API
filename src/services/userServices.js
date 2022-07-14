@@ -19,4 +19,15 @@ const createUser = async (data) => {
   return 'ok';
 };
 
-module.exports = { createUser };
+const getAllUsers = async () => {
+  const users = await User.findAll();
+  const result = users.map((user) => ({
+    id: user.id,
+    displayName: user.displayName,
+    email: user.email,
+    image: user.image,
+  }));
+  return result;
+};
+
+module.exports = { createUser, getAllUsers };
