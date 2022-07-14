@@ -4,6 +4,7 @@ const tokenValidation = require('../middlewares/tokenValidation');
 const categoriesController = require('../controllers/categoriesController');
 
 router.use(tokenValidation)
-  .post('/', categoriesController.createCategory);
+  .post('/', categoriesController.createCategory)
+  .get('/', categoriesController.getAllCategories);
 
 module.exports = router;
