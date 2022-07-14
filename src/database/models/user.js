@@ -12,10 +12,9 @@ const User = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     tableName: 'Users',
-    underscored: true,
   });
 
   return User;
 };
 
-module.exports = User
+module.exports = User;

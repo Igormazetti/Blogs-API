@@ -12,7 +12,6 @@ const createToken = (user) => {
 
 const validateToken = (token) => {
     try {
-      /* Através o método verify, podemos validar e decodificar o nosso JWT. */
       const { data } = jwt.verify(token, process.env.JWT_SECRET);
   
       return data;
