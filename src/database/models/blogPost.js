@@ -21,6 +21,12 @@ const BlogPost = (sequelize, DataTypes) => {
     });
   }
 
+  BlogPost.associate = (models) => {
+    BlogPost.hasMany(models.PostCategory, {
+      foreignKey: 'postId',
+    });
+  }
+
   return BlogPost;
 };
 
