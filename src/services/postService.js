@@ -12,14 +12,11 @@ const createPost = async (token, data) => {
   return validate;
 };
 
-const getAllPosts = async (_token) => {
-  // const user = validateToken(token);
-  // const { id } = await User.findOne({ where: { email: user } });
+const getAllPosts = async () => {
   const result = await BlogPost.findAll({
-    where: { },
     include: [
-      { model: User },
-      { model: Category },
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: {} },
     ],
   });
   return result;
