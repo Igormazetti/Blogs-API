@@ -4,6 +4,7 @@ const tokenValidation = require('../middlewares/tokenValidation');
 
 router
   .use(tokenValidation)
-  .post('/', postController.createPost);
+  .post('/', postController.createPost)
+  .get('/', postController.getAllPosts);
 
 module.exports = router;
