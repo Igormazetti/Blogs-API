@@ -6,6 +6,7 @@ router
   .use(tokenValidation)
   .post('/', postController.createPost)
   .get('/', postController.getAllPosts)
-  .get('/:id', postController.getPostById);
+  .get('/:id', postController.getPostById)
+  .put('/:id', postController.updatePost);
 
 module.exports = router;

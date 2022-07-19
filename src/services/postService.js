@@ -33,4 +33,25 @@ const getPostById = async (id) => {
   return result;
 };
 
-module.exports = { createPost, getAllPosts, getPostById };
+const updatePost = async (token, postId, data) => {
+  const { title, content } = data;
+  const user = validateToken(token);
+  const { id } = await User.findOne({ where: { email: user } });
+  const owner = await BlogPost.findOne({ where: { id: postId } });
+  if (owner.userId !== id) return 'Not authorized';
+  if (!title || !content) return null;
+  await BlogPost.update(
+    { title, content },
+    { where: { id: postId } },
+  );
+  const result = await BlogPost.findOne({
+    where: { id: postId },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: {} },
+    ],
+  });
+  return result;
+};
+
+module.exports = { createPost, getAllPosts, getPostById, updatePost };
