@@ -1,6 +1,9 @@
 const { validateToken } = require('./jwt.service');
 const { User, Category, BlogPost } = require('../database/models');
-const { handleCategories, handleCreatePost } = require('../helpers/postHelpers');
+const {
+  handleCategories,
+  handleCreatePost,
+} = require('../helpers/postHelpers');
 
 const createPost = async (token, data) => {
   const user = validateToken(token);
@@ -40,10 +43,7 @@ const updatePost = async (token, postId, data) => {
   const owner = await BlogPost.findOne({ where: { id: postId } });
   if (owner.userId !== id) return 'Not authorized';
   if (!title || !content) return null;
-  await BlogPost.update(
-    { title, content },
-    { where: { id: postId } },
-  );
+  await BlogPost.update({ title, content }, { where: { id: postId } });
   const result = await BlogPost.findOne({
     where: { id: postId },
     include: [
@@ -54,4 +54,15 @@ const updatePost = async (token, postId, data) => {
   return result;
 };
 
-module.exports = { createPost, getAllPosts, getPostById, updatePost };
+const deletePost = async (token, postId) => {
+  const user = validateToken(token);
+  const { id } = await User.findOne({ where: { email: user } });
+  const owner = await BlogPost.findOne({ where: { id: postId } });
+  if (!owner) return null;
+  if (owner.userId !== id) return 'Not authorized';
+  const destroy = await BlogPost.destroy({ where: { id: postId } });
+  console.log('aqui:', destroy);
+  return destroy;
+};
+
+module.exports = { createPost, getAllPosts, getPostById, updatePost, deletePost };
